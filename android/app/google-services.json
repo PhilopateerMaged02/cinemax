@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "590865576519",
+    "project_id": "cinemax-975ee",
+    "storage_bucket": "cinemax-975ee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590865576519:android:8c3308e5dc528ad6eff762",
+        "android_client_info": {
+          "package_name": "com.example.cinemax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0xvPdZt7CVkLtEDM8LMBuTlmMjuYJ9kE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
