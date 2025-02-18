@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -149,3 +151,67 @@ Widget defaultFormField({
             : null,
       ),
     );
+Widget Sliders(bool isActive) {
+  return CircleAvatar(
+    radius: 5,
+    backgroundColor: isActive ? primaryColor : Colors.grey,
+  );
+}
+
+Widget CarouselItem(MoviesModel model) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    child: Stack(
+      alignment: Alignment.bottomLeft,
+      children: [
+        Container(
+            decoration: BoxDecoration(
+                color: Colors.black12, borderRadius: BorderRadius.circular(20)),
+            width: double.infinity,
+            child: Container(
+              height: 180,
+              child: Image(
+                  fit: BoxFit.contain,
+                  image: NetworkImage(
+                      "https://image.tmdb.org/t/p/w500${model.backdropPath}")),
+            )),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+          child: Text(
+            model.title,
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            model.releaseDate,
+            style: TextStyle(fontWeight: FontWeight.w800),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget categoryItem(index) {
+  List<String> genreName = [
+    "All",
+    "Action",
+    "Documentation",
+    "Tragedy",
+    "Comedy",
+    "Drama",
+    "Animation"
+  ];
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey[800],
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+      child: Text("${genreName[index]}"),
+    ),
+  );
+}

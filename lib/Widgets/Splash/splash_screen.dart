@@ -1,6 +1,7 @@
+import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginSignupWidget/login_signup.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/login_screen.dart';
-import 'package:cinemax/Widgets/Layouts/cinemaxLayout.dart';
+import 'package:cinemax/Widgets/Layout/cinemaxLayout.dart';
 import 'package:cinemax/Shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,7 +47,11 @@ class _SplashScreenState extends State<SplashScreen> {
       //     (route) => false,
       //   );
       // }
-      navigateToandKill(context, LoginSignup());
+      if (uId == null) {
+        navigateToandKill(context, LoginSignup());
+      } else {
+        navigateToandKill(context, Cinemaxlayout());
+      }
     });
   }
 }
