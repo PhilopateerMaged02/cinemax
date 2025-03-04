@@ -5,10 +5,13 @@ import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Home/MostPopular/most_popular_screen.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Search/search_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -40,13 +44,58 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Header Row
                     Row(
                       children: [
-                        CircleAvatar(radius: 25),
+                        ConditionalBuilder(
+                          condition: state is! cinemaxGetUserDataLoadingState,
+                          builder: (BuildContext context) {
+                            return CircleAvatar(
+                              radius: 25,
+                              backgroundColor: primaryColor,
+                              backgroundImage: cinemaxCubit
+                                              .get(context)
+                                              .userModel !=
+                                          null &&
+                                      cinemaxCubit
+                                          .get(context)
+                                          .userModel!
+                                          .image
+                                          .isNotEmpty
+                                  ? NetworkImage(cinemaxCubit
+                                      .get(context)
+                                      .userModel!
+                                      .image)
+                                  : AssetImage("assets/images/placeHolder.png")
+                                      as ImageProvider,
+                            );
+                          },
+                          fallback: (BuildContext context) {
+                            return Skeletonizer(
+                                child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: primaryColor,
+                            ));
+                          },
+                        ),
                         SizedBox(width: 15),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Hello, User",
-                                style: TextStyle(fontWeight: FontWeight.w800)),
+                            ConditionalBuilder(
+                              condition:
+                                  state is! cinemaxGetUserDataLoadingState,
+                              builder: (BuildContext context) {
+                                return Text(
+                                  "Hello, ${cinemaxCubit.get(context).userModel != null ? cinemaxCubit.get(context).userModel!.name : "Guest"}",
+                                  style: TextStyle(fontWeight: FontWeight.w800),
+                                );
+                              },
+                              fallback: (BuildContext context) {
+                                return Skeletonizer(
+                                  child: Text("Hello, Guest",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800)),
+                                );
+                              },
+                            ),
                             Text(
                               "Browse your favorite movies",
                               style: TextStyle(
@@ -66,7 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        navigateTo(context, SearchScreen());
+                      },
                       child: Center(
                         child: Container(
                           width: 300,
@@ -120,9 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .upComingMoviesList
                                   .length,
                               itemBuilder: (context, index, realIndex) =>
-                                  CarouselItem(cinemaxCubit
-                                      .get(context)
-                                      .upComingMoviesList[index]),
+                                  CarouselItem(
+                                      cinemaxCubit
+                                          .get(context)
+                                          .upComingMoviesList[index],
+                                      context),
                               options: CarouselOptions(
                                   autoPlay: true,
                                   height: 180,
@@ -137,12 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       fallback: (BuildContext context) {
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Center(
-                              child: CircularProgressIndicator(
-                            color: primaryColor,
-                          )),
+                        return Skeletonizer(
+                          child: CarouselItemFallback(context),
                         );
                       },
                     ),
@@ -180,12 +229,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.infinity,
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) =>
-                                categoryItem(index),
+                            itemBuilder: (context, index) {
+                              // cinemaxCubit.get(context).fetchCategoriesMovies(
+                              //     genreName[index],
+                              //     index,
+                              //     context,
+                              //     genreId[index]);
+                              return categoryItem(
+                                  cinemaxCubit.get(context).categoryMoviesList,
+                                  index,
+                                  context,
+                                  genreId[index]);
+                            },
                             separatorBuilder: (context, index) => Container(
                                   width: 10,
                                 ),
-                            itemCount: 7),
+                            itemCount: genreName.length),
                       ),
                     ),
                     Padding(
@@ -194,13 +253,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           Text(
-                            "Top Most",
+                            "Most Popular",
                             style: TextStyle(
                                 fontSize: 19, fontWeight: FontWeight.w800),
                           ),
                           Spacer(),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateTo(context, MostPopularScreen());
+                              },
                               child: Text(
                                 "See All",
                                 style: TextStyle(
@@ -225,7 +286,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (context, index) => movieItem(
                                   cinemaxCubit
                                       .get(context)
-                                      .popularMoviesList[index]),
+                                      .popularMoviesList[index],
+                                  context),
                               separatorBuilder: (context, index) => Container(
                                     width: 10,
                                   ),
@@ -233,9 +295,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       fallback: (BuildContext context) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
+                        return Skeletonizer(
+                          child: movieItemFallback(context),
                         );
                       },
                     ),
@@ -250,81 +311,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget movieItem(MoviesModel model) {
-  return Stack(
-    alignment: Alignment.topRight,
-    children: [
-      Card(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Container(
-          width: 150,
-          height: 350,
-          color: Colors.grey[900],
-          child: Column(
-            children: [
-              Image(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      "https://image.tmdb.org/t/p/w500${model.posterPath}")),
-              Spacer(),
-              Container(
-                width: double.infinity,
-                height: 40,
-                color: Colors.grey[900],
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          model.title,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w800),
-                        ),
-                        Text(
-                          "Action",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          //width: 20,
-          //height: 20,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Colors.grey[700],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.orange,
-                ),
-                Text(
-                  '${model.voteAverage.toDouble().toStringAsFixed(1)}',
-                  style: TextStyle(color: Colors.orange),
-                )
-              ],
-            ),
-          ),
-        ),
-      )
-    ],
-  );
-}
 
 
 

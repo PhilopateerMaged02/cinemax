@@ -1,11 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/Service/SharedPrefrences/shared_prefrences.dart';
 import 'package:cinemax/Shared/bloc_observer.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Widgets/Splash/splash_screen.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +22,7 @@ void main() async {
   uId = SharedPrefrencesSingleton.getData(key: 'uId');
   Bloc.observer = MyBlocObserver();
   print('🔥 Firebase initialized successfully!');
+  print('🔥' + "$uId");
   runApp(const MainApp());
 }
 
@@ -36,7 +35,10 @@ class MainApp extends StatelessWidget {
       create: (BuildContext context) => cinemaxCubit()
         ..getUserData()
         ..fetchPopularMovies()
-        ..fetchUpComingMovies(),
+        ..fetchUpComingMovies()
+        ..fetchTopRatedMovies()
+        ..fetchActionMovies()
+        ..fetchDocumentationMovies(),
       child: MaterialApp(
         home: SplashScreen(),
         darkTheme: ThemeData.dark(),
