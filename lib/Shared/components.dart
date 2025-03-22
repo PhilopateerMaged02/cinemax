@@ -2,7 +2,7 @@ import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
-import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/categories_screen.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/CategoryScreen/category_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/MovieItemDetail/movie_item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -224,25 +224,7 @@ Widget CarouselItem(MoviesModel model, context) {
 // ignore: non_constant_identifier_names
 Widget CarouselItemFallback(context) {
   return GestureDetector(
-    onTap: () async {
-      //MoviesModel? updatedModel = await DioHelper.fetchMovieDetails(model.id);
-      // navigateTo(
-      //   context,
-      //   MovieItemDetailScreen(
-      //     title: updatedModel!.title,
-      //     genre: updatedModel.genres.first,
-      //     trailerURL: updatedModel.mainTrailer!,
-      //     posterImage: updatedModel.posterPath,
-      //     rate: updatedModel.voteAverage.toDouble().toStringAsFixed(1),
-      //     year: updatedModel.releaseDate.substring(0, 4),
-      //     overview: updatedModel.overview,
-      //     genres: updatedModel.genres,
-      //     runTime: updatedModel.runtime.toString(),
-      //     popularity: updatedModel.popularity.round().toString(),
-      //     cast: updatedModel.castAndCrew,
-      //   ),
-      // );
-    },
+    onTap: () async {},
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Stack(
@@ -293,7 +275,7 @@ Widget categoryItem(
           .fetchCategoriesMovies(title, index, context);
       navigateTo(
           context,
-          CategoriesScreen(
+          CategoryScreen(
               listOfCategories: cinemaxCubit.get(context).categoryMoviesList,
               title: title));
       //print("Index of ListView = " + index.toString());
@@ -449,33 +431,7 @@ Widget movieItem(MoviesModel model, context) {
 
 Widget movieItemFallback(context) {
   return GestureDetector(
-    onTap: () async {
-      //MoviesModel? updatedModel = await DioHelper.fetchMovieDetails(model.id);
-      // navigateTo(
-      //   context,
-      //   MovieItemDetailScreen(
-      //     title: updatedModel!.title,
-      //     genre: updatedModel.genres.first,
-      //     trailerURL: updatedModel.mainTrailer!,
-      //     posterImage: updatedModel.posterPath,
-      //     genres: updatedModel.genres,
-      //     rate: updatedModel.voteAverage.toDouble().toStringAsFixed(1),
-      //     year: updatedModel.releaseDate.substring(0, 4),
-      //     overview: updatedModel.overview,
-      //     runTime: updatedModel.runtime.toString(),
-      //     popularity: updatedModel.popularity.round().toString(),
-      //     cast: updatedModel.castAndCrew,
-      //   ),
-      // );
-      // if (updatedModel.trailers.isNotEmpty) {
-      //   for (String trailerUrl in updatedModel.trailers) {
-      //     print("Trailer: $trailerUrl");
-      //   }
-      //   print("Main Trailer: ${updatedModel.mainTrailer}");
-      // } else {
-      //   print("No trailers available.");
-      // }
-    },
+    onTap: () async {},
     child: Stack(
       alignment: Alignment.topRight,
       children: [
@@ -790,6 +746,43 @@ Widget movieItemSearch(query, context) {
           ),
         )
       ],
+    ),
+  );
+}
+
+Widget genreItem(
+  index,
+  context,
+  String title,
+) {
+  return Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: GestureDetector(
+      onTap: () async {
+        await cinemaxCubit
+            .get(context)
+            .fetchCategoriesMovies(title, index, context);
+        navigateTo(
+            context,
+            CategoryScreen(
+                listOfCategories: cinemaxCubit.get(context).categoryMoviesList,
+                title: title));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20), color: primaryColor),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              genreName[index],
+              style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: genreName[index].length > 10 ? 14 : 16),
+            ),
+          ),
+        ),
+      ),
     ),
   );
 }

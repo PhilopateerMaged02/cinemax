@@ -9,11 +9,13 @@ import 'package:cinemax/Widgets/Splash/splash_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPrefrencesSingleton.init();
+  Widget startWidget = SplashScreen();
   DioHelper.initDio();
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
@@ -25,11 +27,15 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   print('🔥 Firebase initialized successfully!');
   print('🔥' "$uId");
-  runApp(const MainApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(MainApp(startWidget: startWidget));
+  });
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, required startWidget});
 
   @override
   Widget build(BuildContext context) {

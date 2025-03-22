@@ -7,16 +7,16 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoriesScreen extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
   final List<MoviesModel> listOfCategories;
   final String title;
-  const CategoriesScreen(
+  const CategoryScreen(
       {super.key, required this.listOfCategories, required this.title});
   @override
-  State<CategoriesScreen> createState() => _CategoriesScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<cinemaxCubit, cinemaxStates>(

@@ -3,6 +3,7 @@ import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/all_categories_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/MostPopular/most_popular_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Search/search_screen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -234,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Spacer(),
                           TextButton(
                               onPressed: () {
-                                //navigateTo(context, MostPopularScreen());
+                                navigateTo(context, AllCategoriesScreen());
                               },
                               child: Text(
                                 "See All",
@@ -252,11 +253,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              // cinemaxCubit.get(context).fetchCategoriesMovies(
-                              //     genreName[index],
-                              //     index,
-                              //     context,
-                              //     genreId[index]);
                               return categoryItem(
                                   cinemaxCubit.get(context).categoryMoviesList,
                                   index,
@@ -266,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             separatorBuilder: (context, index) => Container(
                                   width: 10,
                                 ),
-                            itemCount: genreName.length),
+                            itemCount: 4),
                       ),
                     ),
                     Padding(

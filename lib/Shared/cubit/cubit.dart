@@ -1,16 +1,21 @@
+// ignore_for_file: avoid_print
+
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Models/UserModel/user_model.dart';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
+import 'package:cinemax/Widgets/AuthunticationWidgets/LoginSignupWidget/login_signup.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/home_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Myaccount/myaccount_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Search/search_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Watchlist/watchlist_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: camel_case_types
 class cinemaxCubit extends Cubit<cinemaxStates> {
@@ -66,14 +71,14 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
 
       if (userDoc.exists) {
         emit(cinemaxGetUserDataSuccessState());
-        // ignore: avoid_print
+
         print("user id : ${uId!}");
         return userModel =
             UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
       }
     } catch (e) {
       emit(cinemaxGetUserDataErrorState());
-      // ignore: avoid_print
+
       print("Error fetching user data: $e");
     }
     emit(cinemaxGetUserDataErrorState());
@@ -87,13 +92,6 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
   // ignore: non_constant_identifier_names
   List<MoviesModel> TopRatedMoviesList = [];
   List<MoviesModel> categoryMoviesList = [];
-  List<MoviesModel> actionMoviesList = [];
-  List<MoviesModel> documentationMoviesList = [];
-  List<MoviesModel> crimeMoviesList = [];
-  List<MoviesModel> adventureMoviesList = [];
-  List<MoviesModel> animationMoviesList = [];
-  List<MoviesModel> comedyMoviesList = [];
-  List<MoviesModel> dramaMoviesList = [];
   List<MoviesModel> watchlistMoviesList = [];
   List<MoviesModel> watchlistDetails = [];
   //////////////////////////getUpComingMovies///////////////////////////////////
@@ -170,104 +168,6 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
       emit(cinemaxGetCategorySuccessState());
     } catch (error) {
       //print("Error in fetching Category Movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-  //////////////////////////getActionMovies///////////////////////////////////
-  Future<void> fetchActionMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      actionMoviesList.clear();
-      actionMoviesList = await DioHelper.fetchActionMovies();
-      //print(actionMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-  //////////////////////////getDocumentationMovies///////////////////////////////////
-  Future<void> fetchDocumentationMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      documentationMoviesList.clear();
-      documentationMoviesList = await DioHelper.fetchDocumentationMovies();
-      //print(documentationMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-//////////////////////////getCrimeMovies///////////////////////////////////
-  Future<void> fetchCrimeMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      crimeMoviesList.clear();
-      crimeMoviesList = await DioHelper.fetchCrimeMovies();
-      //print(crimeMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-//////////////////////////getAdventureMovies///////////////////////////////////
-  Future<void> fetchAdventureMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      adventureMoviesList.clear();
-      adventureMoviesList = await DioHelper.fetchAdventureMovies();
-      //print(adventureMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-//////////////////////////getComedyMovies///////////////////////////////////
-  Future<void> fetchComedyMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      comedyMoviesList.clear();
-      comedyMoviesList = await DioHelper.fetchComedyMovies();
-      //print(comedyMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-//////////////////////////getAnimationMovies///////////////////////////////////
-  Future<void> fetchAnimationMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      animationMoviesList.clear();
-      animationMoviesList = await DioHelper.fetchAnimationMovies();
-      //print(animationMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
-      emit(cinemaxGetCategoryErrorState());
-    }
-  }
-
-//////////////////////////getDramaMovies///////////////////////////////////
-  Future<void> fetchDramaMovies() async {
-    emit(cinemaxGetCategoryLoadingState());
-    try {
-      dramaMoviesList.clear();
-      dramaMoviesList = await DioHelper.fetchDramaMovies();
-      //print(dramaMoviesList.length);
-      emit(cinemaxGetCategorySuccessState());
-    } catch (error) {
-      //print("Error in fetching category movies : " + error.toString());
       emit(cinemaxGetCategoryErrorState());
     }
   }
@@ -358,5 +258,16 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
     }
 
     return watchlistDetails;
+  }
+
+  void signOut(context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove("uId");
+      navigateToandKill(context, LoginSignup());
+    } catch (error) {
+      print('Error signing out: $error');
+    }
   }
 }
