@@ -1,16 +1,9 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
-import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/ActionScreen/action_screen.dart';
-import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/DocumentationScreen/documentation_screen.dart';
-import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/TopRatedScreen/top_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/Categories/categories_screen.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/MovieItemDetail/movie_item_detail_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -29,6 +22,7 @@ void showToust({
   );
 }
 
+// ignore: constant_identifier_names
 enum ToastStates { SUCCESS, ERROR, WARNING }
 
 Color chooseToastColor(ToastStates state) {
@@ -86,17 +80,17 @@ Future navigateToandKill(context, widget) {
   );
 }
 
-Widget buildDefaultButton({
-  required String text,
-  required VoidCallback onPressed,
-  required double height,
-  required double width,
-}) {
+Widget buildDefaultButton(
+    {required String text,
+    required VoidCallback onPressed,
+    required double height,
+    required double width,
+    required Color? color}) {
   return Container(
     height: height,
     width: width,
-    decoration: BoxDecoration(
-        color: primaryColor, borderRadius: BorderRadius.circular(25)),
+    decoration:
+        BoxDecoration(color: color, borderRadius: BorderRadius.circular(25)),
     child: TextButton(
       onPressed: onPressed,
       child: Text(
@@ -159,6 +153,7 @@ Widget defaultFormField({
             : null,
       ),
     );
+// ignore: non_constant_identifier_names
 Widget Sliders(bool isActive) {
   return CircleAvatar(
     radius: 5,
@@ -166,6 +161,7 @@ Widget Sliders(bool isActive) {
   );
 }
 
+// ignore: non_constant_identifier_names
 Widget CarouselItem(MoviesModel model, context) {
   return GestureDetector(
     onTap: () async {
@@ -173,7 +169,8 @@ Widget CarouselItem(MoviesModel model, context) {
       navigateTo(
         context,
         MovieItemDetailScreen(
-          title: updatedModel!.title,
+          id: updatedModel!.id,
+          title: updatedModel.title,
           genre: updatedModel.genres.first,
           trailerURL: updatedModel.mainTrailer!,
           posterImage: updatedModel.posterPath,
@@ -197,7 +194,7 @@ Widget CarouselItem(MoviesModel model, context) {
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(20)),
               width: double.infinity,
-              child: Container(
+              child: SizedBox(
                 height: 180,
                 child: Image(
                     fit: BoxFit.contain,
@@ -214,7 +211,7 @@ Widget CarouselItem(MoviesModel model, context) {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-              model.releaseDate,
+              formatReleaseDate(model.releaseDate),
               style: TextStyle(fontWeight: FontWeight.w800),
             ),
           ),
@@ -224,6 +221,7 @@ Widget CarouselItem(MoviesModel model, context) {
   );
 }
 
+// ignore: non_constant_identifier_names
 Widget CarouselItemFallback(context) {
   return GestureDetector(
     onTap: () async {
@@ -255,7 +253,7 @@ Widget CarouselItemFallback(context) {
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(20)),
               width: double.infinity,
-              child: Container(
+              child: SizedBox(
                 height: 180,
                 child: Image(
                     fit: BoxFit.fitWidth,
@@ -281,97 +279,26 @@ Widget CarouselItemFallback(context) {
   );
 }
 
-Widget categoryItem(categoryList, index, context, title) {
+Widget categoryItem(
+  categoryList,
+  index,
+  context,
+  String title,
+) {
   //cinemaxCubit.get(context).fetchCategoriesMovies(title, index, context, index);
   return GestureDetector(
     onTap: () async {
-      if (index == 0) {
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-        navigateTo(context, TopScreen());
-        print("Index of ListView = " + index.toString());
-        print("Index of GenreNameList = " + genreName[index]);
-        print("Index of GenreIdList = " + genreId[index].toString());
-      } else if (index == 1) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 2) {
-        navigateTo(context, DocumentationScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 3) {
-        navigateTo(context, DocumentationScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 4) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 5) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 6) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 7) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      } else if (index == 8) {
-        navigateTo(context, ActionScreen());
-        //await DioHelper.getCategoriesMovies(genreId[index]);
-        // navigateTo(
-        //     context,
-        //     CategoriesScreen(
-        //       listOfCategories: categoryList,
-        //       title: title,
-        //     ));
-      }
-      print("Index of ListView = " + index.toString());
-      print("Index of GenreNameList = " + genreName[index]);
-      print("Index of GenreIdList = " + genreId[index].toString());
+      await cinemaxCubit
+          .get(context)
+          .fetchCategoriesMovies(title, index, context);
+      navigateTo(
+          context,
+          CategoriesScreen(
+              listOfCategories: cinemaxCubit.get(context).categoryMoviesList,
+              title: title));
+      //print("Index of ListView = " + index.toString());
+      //print("Index of GenreNameList = " + genreName[index]);
+      //print("Index of GenreIdList = " + genreId[index].toString());
     },
     child: Container(
       decoration: BoxDecoration(
@@ -380,15 +307,13 @@ Widget categoryItem(categoryList, index, context, title) {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-        child: Container(
-          child: Text(
-            "${genreName[index]}",
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+        child: Text(
+          genreName[index],
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -403,7 +328,8 @@ Widget movieItem(MoviesModel model, context) {
       navigateTo(
         context,
         MovieItemDetailScreen(
-          title: updatedModel!.title,
+          id: updatedModel!.id,
+          title: updatedModel.title,
           genre: updatedModel.genres.first,
           trailerURL: updatedModel.mainTrailer!,
           posterImage: updatedModel.posterPath,
@@ -417,12 +343,13 @@ Widget movieItem(MoviesModel model, context) {
         ),
       );
       if (updatedModel.trailers.isNotEmpty) {
+        // ignore: unused_local_variable
         for (String trailerUrl in updatedModel.trailers) {
-          print("Trailer: $trailerUrl");
+          //print("Trailer: $trailerUrl");
         }
-        print("Main Trailer: ${updatedModel.mainTrailer}");
+        //print("Main Trailer: ${updatedModel.mainTrailer}");
       } else {
-        print("No trailers available.");
+        //print("No trailers available.");
       }
     },
     child: Stack(
@@ -436,10 +363,18 @@ Widget movieItem(MoviesModel model, context) {
             color: Colors.grey[900],
             child: Column(
               children: [
-                Image(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        "https://image.tmdb.org/t/p/w500${model.posterPath}")),
+                Image.network(
+                  model.posterPath.isNotEmpty
+                      ? "https://image.tmdb.org/t/p/w500${model.posterPath}"
+                      : "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.network(
+                      "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
+                      fit: BoxFit.fill,
+                    );
+                  },
+                ),
                 Spacer(),
                 Container(
                   width: double.infinity,
@@ -499,7 +434,7 @@ Widget movieItem(MoviesModel model, context) {
                     color: Colors.orange,
                   ),
                   Text(
-                    '${model.voteAverage.toDouble().toStringAsFixed(1)}',
+                    model.voteAverage.toDouble().toStringAsFixed(1),
                     style: TextStyle(color: Colors.orange),
                   )
                 ],
@@ -633,6 +568,7 @@ Widget movieItemMostPopular(MoviesModel model, context) {
         context,
         MovieItemDetailScreen(
           title: updatedModel!.title,
+          id: updatedModel.id,
           genre: updatedModel.genres.first,
           posterImage: updatedModel.posterPath,
           trailerURL: updatedModel.mainTrailer!,
@@ -646,11 +582,12 @@ Widget movieItemMostPopular(MoviesModel model, context) {
         ),
       );
       if (updatedModel.trailers.isNotEmpty) {
+        // ignore: unused_local_variable
         for (String trailerUrl in updatedModel.trailers) {
-          print("Trailer: $trailerUrl");
+          // print("Trailer: $trailerUrl");
         }
       } else {
-        print("No trailers available.");
+        //print("No trailers available.");
       }
     },
     child: Stack(
@@ -663,10 +600,18 @@ Widget movieItemMostPopular(MoviesModel model, context) {
             color: Colors.grey[900],
             child: Column(
               children: [
-                Image(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        "https://image.tmdb.org/t/p/w500${model.posterPath}")),
+                Image.network(
+                  model.posterPath.isNotEmpty
+                      ? "https://image.tmdb.org/t/p/w500${model.posterPath}"
+                      : "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.network(
+                      "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
+                      fit: BoxFit.fill,
+                    );
+                  },
+                ),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -715,7 +660,7 @@ Widget movieItemMostPopular(MoviesModel model, context) {
               color: Colors.grey[700],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Row(
                 children: [
                   Icon(
@@ -723,7 +668,7 @@ Widget movieItemMostPopular(MoviesModel model, context) {
                     color: Colors.orange,
                   ),
                   Text(
-                    '${model.voteAverage.toDouble().toStringAsFixed(1)}',
+                    model.voteAverage.toDouble().toStringAsFixed(1),
                     style: TextStyle(color: Colors.orange),
                   )
                 ],
@@ -743,7 +688,8 @@ Widget movieItemSearch(query, context) {
       navigateTo(
         context,
         MovieItemDetailScreen(
-          title: updatedModel!.title,
+          title: updatedModel.title,
+          id: updatedModel.id,
           genre: updatedModel.genres.first,
           posterImage: updatedModel.posterPath,
           trailerURL: updatedModel.mainTrailer!,
@@ -757,11 +703,12 @@ Widget movieItemSearch(query, context) {
         ),
       );
       if (updatedModel.trailers.isNotEmpty) {
+        // ignore: unused_local_variable
         for (String trailerUrl in updatedModel.trailers) {
-          print("Trailer: $trailerUrl");
+          // print("Trailer: $trailerUrl");
         }
       } else {
-        print("No trailers available.");
+        //print("No trailers available.");
       }
     },
     child: Stack(
@@ -791,7 +738,7 @@ Widget movieItemSearch(query, context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              updatedModel!.title.length > 20
+                              updatedModel.title.length > 20
                                   ? "${updatedModel.title.substring(0, 15)}..."
                                   : updatedModel.title,
                               maxLines: 1,
@@ -834,7 +781,7 @@ Widget movieItemSearch(query, context) {
                     color: Colors.orange,
                   ),
                   Text(
-                    '${updatedModel.voteAverage.toDouble().toStringAsFixed(1)}',
+                    updatedModel.voteAverage.toDouble().toStringAsFixed(1),
                     style: TextStyle(color: Colors.orange),
                   )
                 ],

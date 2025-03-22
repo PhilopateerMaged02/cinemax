@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/Service/SharedPrefrences/shared_prefrences.dart';
 import 'package:cinemax/Shared/bloc_observer.dart';
@@ -22,7 +24,7 @@ void main() async {
   uId = SharedPrefrencesSingleton.getData(key: 'uId');
   Bloc.observer = MyBlocObserver();
   print('🔥 Firebase initialized successfully!');
-  print('🔥' + "$uId");
+  print('🔥' "$uId");
   runApp(const MainApp());
 }
 
@@ -36,9 +38,7 @@ class MainApp extends StatelessWidget {
         ..getUserData()
         ..fetchPopularMovies()
         ..fetchUpComingMovies()
-        ..fetchTopRatedMovies()
-        ..fetchActionMovies()
-        ..fetchDocumentationMovies(),
+        ..getWatchlistDetails(),
       child: MaterialApp(
         home: SplashScreen(),
         darkTheme: ThemeData.dark(),

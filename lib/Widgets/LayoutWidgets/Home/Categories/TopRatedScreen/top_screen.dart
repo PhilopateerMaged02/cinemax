@@ -1,4 +1,3 @@
-import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopScreen extends StatefulWidget {
+  const TopScreen({super.key});
+
   @override
   State<TopScreen> createState() => _TopScreenState();
 }

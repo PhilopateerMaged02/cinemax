@@ -34,7 +34,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       },
                       icon: Image(image: AssetImage("assets/images/Back.png"))),
                   title: Text(
-                    "${widget.title}",
+                    widget.title,
                     style: TextStyle(fontWeight: FontWeight.w800),
                   ),
                   centerTitle: true,

@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+// ignore_for_file: avoid_print
+
 import 'package:cinemax/Shared/Service/SharedPrefrences/shared_prefrences.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/cubit/states.dart';
@@ -6,9 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: camel_case_types
 class cinemaxLoginCubit extends Cubit<cinemaxLoginStates> {
   cinemaxLoginCubit() : super(cinemaxLoginInitialState());
   static cinemaxLoginCubit get(context) => BlocProvider.of(context);
+  // ignore: non_constant_identifier_names
   void Login({required String email, required String password}) async {
     emit(cinemaxLoginLoadingState());
     await FirebaseAuth.instance
@@ -19,7 +22,7 @@ class cinemaxLoginCubit extends Cubit<cinemaxLoginStates> {
       emit(cinemaxLoginSuccessState());
     }).catchError((error) {
       emit(cinemaxLoginErrorState());
-      print("ERROR IN Login : " + error.toString());
+      print("ERROR IN Login : $error");
     });
   }
 

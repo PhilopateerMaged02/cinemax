@@ -1,15 +1,17 @@
-import 'package:bloc/bloc.dart';
-import 'package:cinemax/Shared/constants.dart';
+// ignore_for_file: avoid_print
+
 import 'package:cinemax/Widgets/AuthunticationWidgets/SignupWidget/cubit/states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: camel_case_types
 class cinemaxRegisterCubit extends Cubit<cinemaxRegisterStates> {
   cinemaxRegisterCubit() : super(cinemaxRegisterInitialState());
   static cinemaxRegisterCubit get(context) => BlocProvider.of(context);
 
+  // ignore: non_constant_identifier_names
   void Register(
       {required String email,
       required String password,
@@ -30,7 +32,7 @@ class cinemaxRegisterCubit extends Cubit<cinemaxRegisterStates> {
       emit(cinemaxRegisterSuccessState());
     } catch (error) {
       emit(cinemaxRegisterErrorState());
-      print("ERROR IN REGISTER : " + error.toString());
+      print("ERROR IN REGISTER : $error");
     }
   }
 

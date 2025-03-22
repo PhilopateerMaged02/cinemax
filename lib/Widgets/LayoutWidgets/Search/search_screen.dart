@@ -1,13 +1,14 @@
-import 'dart:convert';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
 import 'package:cinemax/Shared/components.dart';
-import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/MovieItemDetail/movie_item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SearchScreenState createState() => _SearchScreenState();
 }
 
@@ -50,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                 },
                 input: TextInputType.text,
-                text: "Search for movies, TV shows, or actors...",
+                text: "Search for movies, TV Shows, or Actors...",
                 prefix: Icons.search),
           ),
           if (isLoading)
@@ -210,8 +211,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
                           // Navigate to detail screen
                           navigateTo(
+                            // ignore: use_build_context_synchronously
                             context,
                             MovieItemDetailScreen(
+                              id: details['id'],
                               title: details["title"] ??
                                   details["name"] ??
                                   "Unknown",

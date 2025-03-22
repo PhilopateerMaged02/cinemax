@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:developer';
+// ignore_for_file: avoid_print
 
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:dio/dio.dart';
@@ -129,8 +128,7 @@ class DioHelper {
               .toList();
 
           allTvShows.addAll(tvShows);
-          print("length of the full list of popular tv : " +
-              allTvShows.length.toString()); // Append results from each page
+          print("length of the full list of popular tv : ${allTvShows.length}");
         } else {
           throw Exception(
               "Failed to load TV shows (Status Code: ${response.statusCode})");
@@ -284,6 +282,181 @@ class DioHelper {
       print(
           "✅ Documentation Movies Fetched Successfully: ${allDocumentationMovies.length} items");
       return allDocumentationMovies;
+    } catch (e) {
+      print("❌ Error fetching popular movies: $e");
+      return [];
+    }
+  }
+
+  static Future<List<MoviesModel>> fetchDramaMovies() async {
+    try {
+      List<MoviesModel> allDramaMovies = [];
+
+      for (int i = 1; i <= 10; i++) {
+        // Fetch up to 10 pages
+        Response response =
+            await DioHelper.dio.get("discover/movie", queryParameters: {
+          "language": "en-US",
+          "with_genres": 18,
+          "sort_by": "popularity.desc",
+          "page": i,
+        });
+
+        if (response.statusCode == 200) {
+          List<MoviesModel> movies = (response.data['results'] as List)
+              .map((movie) => MoviesModel.fromJson(movie))
+              .toList();
+
+          allDramaMovies.addAll(movies);
+        } else {
+          throw Exception(
+              "Failed to load movies (Status Code: ${response.statusCode})");
+        }
+      }
+
+      print(
+          "✅ Drama Movies Fetched Successfully: ${allDramaMovies.length} items");
+      return allDramaMovies;
+    } catch (e) {
+      print("❌ Error fetching popular movies: $e");
+      return [];
+    }
+  }
+
+  static Future<List<MoviesModel>> fetchComedyMovies() async {
+    try {
+      List<MoviesModel> allComedyMovies = [];
+
+      for (int i = 1; i <= 10; i++) {
+        // Fetch up to 10 pages
+        Response response =
+            await DioHelper.dio.get("discover/movie", queryParameters: {
+          "language": "en-US",
+          "with_genres": 35,
+          "sort_by": "popularity.desc",
+          "page": i,
+        });
+
+        if (response.statusCode == 200) {
+          List<MoviesModel> movies = (response.data['results'] as List)
+              .map((movie) => MoviesModel.fromJson(movie))
+              .toList();
+
+          allComedyMovies.addAll(movies);
+        } else {
+          throw Exception(
+              "Failed to load movies (Status Code: ${response.statusCode})");
+        }
+      }
+
+      print(
+          "✅ Comedy Movies Fetched Successfully: ${allComedyMovies.length} items");
+      return allComedyMovies;
+    } catch (e) {
+      print("❌ Error fetching popular movies: $e");
+      return [];
+    }
+  }
+
+  static Future<List<MoviesModel>> fetchCrimeMovies() async {
+    try {
+      List<MoviesModel> allCrimeMovies = [];
+
+      for (int i = 1; i <= 10; i++) {
+        // Fetch up to 10 pages
+        Response response =
+            await DioHelper.dio.get("discover/movie", queryParameters: {
+          "language": "en-US",
+          "with_genres": 80,
+          "sort_by": "popularity.desc",
+          "page": i,
+        });
+
+        if (response.statusCode == 200) {
+          List<MoviesModel> movies = (response.data['results'] as List)
+              .map((movie) => MoviesModel.fromJson(movie))
+              .toList();
+
+          allCrimeMovies.addAll(movies);
+        } else {
+          throw Exception(
+              "Failed to load movies (Status Code: ${response.statusCode})");
+        }
+      }
+
+      print(
+          "✅ Crime Movies Fetched Successfully: ${allCrimeMovies.length} items");
+      return allCrimeMovies;
+    } catch (e) {
+      print("❌ Error fetching popular movies: $e");
+      return [];
+    }
+  }
+
+  static Future<List<MoviesModel>> fetchAdventureMovies() async {
+    try {
+      List<MoviesModel> allAdventureMovies = [];
+
+      for (int i = 1; i <= 10; i++) {
+        // Fetch up to 10 pages
+        Response response =
+            await DioHelper.dio.get("discover/movie", queryParameters: {
+          "language": "en-US",
+          "with_genres": 12,
+          "sort_by": "popularity.desc",
+          "page": i,
+        });
+
+        if (response.statusCode == 200) {
+          List<MoviesModel> movies = (response.data['results'] as List)
+              .map((movie) => MoviesModel.fromJson(movie))
+              .toList();
+
+          allAdventureMovies.addAll(movies);
+        } else {
+          throw Exception(
+              "Failed to load movies (Status Code: ${response.statusCode})");
+        }
+      }
+
+      print(
+          "✅ Adventure Movies Fetched Successfully: ${allAdventureMovies.length} items");
+      return allAdventureMovies;
+    } catch (e) {
+      print("❌ Error fetching popular movies: $e");
+      return [];
+    }
+  }
+
+  static Future<List<MoviesModel>> fetchAnimationMovies() async {
+    try {
+      List<MoviesModel> allAnimationMovies = [];
+
+      for (int i = 1; i <= 10; i++) {
+        // Fetch up to 10 pages
+        Response response =
+            await DioHelper.dio.get("discover/movie", queryParameters: {
+          "language": "en-US",
+          "with_genres": 16,
+          "sort_by": "popularity.desc",
+          "page": i,
+        });
+
+        if (response.statusCode == 200) {
+          List<MoviesModel> movies = (response.data['results'] as List)
+              .map((movie) => MoviesModel.fromJson(movie))
+              .toList();
+
+          allAnimationMovies.addAll(movies);
+        } else {
+          throw Exception(
+              "Failed to load movies (Status Code: ${response.statusCode})");
+        }
+      }
+
+      print(
+          "✅ Animation Movies Fetched Successfully: ${allAnimationMovies.length} items");
+      return allAnimationMovies;
     } catch (e) {
       print("❌ Error fetching popular movies: $e");
       return [];

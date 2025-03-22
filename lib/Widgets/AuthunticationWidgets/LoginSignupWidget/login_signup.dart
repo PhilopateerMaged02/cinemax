@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LoginSignup extends StatelessWidget {
+  const LoginSignup({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +37,7 @@ class LoginSignup extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: buildDefaultButton(
+                    color: primaryColor,
                     text: "Sign Up",
                     onPressed: () {
                       navigateTo(context, SignupScreen());

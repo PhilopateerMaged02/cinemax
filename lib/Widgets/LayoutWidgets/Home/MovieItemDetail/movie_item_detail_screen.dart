@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
+import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieItemDetailScreen extends StatefulWidget {
+  final int id;
   final String title;
   final String posterImage;
   final String rate;
@@ -16,10 +18,11 @@ class MovieItemDetailScreen extends StatefulWidget {
   final String genre;
   final String trailerURL;
   final List<String> genres;
-
   final List<Map<String, String>> cast;
+
   const MovieItemDetailScreen({
-    Key? key,
+    super.key,
+    required this.id,
     required this.title,
     required this.trailerURL,
     required this.genre,
@@ -31,7 +34,7 @@ class MovieItemDetailScreen extends StatefulWidget {
     required this.year,
     required this.popularity,
     required this.overview,
-  }) : super(key: key);
+  });
 
   @override
   State<MovieItemDetailScreen> createState() => _MovieItemDetailScreenState();
@@ -100,6 +103,7 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                                       filter: ImageFilter.blur(
                                           sigmaX: 8, sigmaY: 8),
                                       child: Container(
+                                        // ignore: deprecated_member_use
                                         color: Colors.black.withOpacity(0.2),
                                       ))),
                             ],
@@ -119,7 +123,7 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 50,
                               height: 50,
                               child: IconButton(
@@ -129,16 +133,14 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                                   icon: Image.asset("assets/images/Back.png")),
                             ),
                             Spacer(),
-                            Container(
-                              child: Text(
-                                widget.title.length > 18
-                                    ? "${widget.title.substring(0, 18)}..."
-                                    : widget.title,
-                                style: TextStyle(
-                                    fontSize: 19,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800),
-                              ),
+                            Text(
+                              widget.title.length > 18
+                                  ? "${widget.title.substring(0, 18)}..."
+                                  : widget.title,
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
                             ),
                             Spacer(),
                             CircleAvatar(
@@ -186,7 +188,9 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                           color: Colors.grey[300],
                         ),
                         Text(
-                          " ${widget.genre}",
+                          widget.genre.length > 8
+                              ? "${widget.genre.substring(0, 8)}..."
+                              : widget.genre,
                           style:
                               TextStyle(color: Colors.grey[300], fontSize: 16),
                         ),
@@ -202,7 +206,7 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                           color: Colors.orange,
                         ),
                         Text(
-                          '${widget.rate}',
+                          widget.rate,
                           style: TextStyle(color: Colors.orange),
                         )
                       ],
@@ -211,22 +215,70 @@ class _MovieItemDetailScreenState extends State<MovieItemDetailScreen> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Center(
-                  child: buildDefaultButton(
-                      text: "Play Trailer",
-                      onPressed: () {
-                        _showTrailer();
-                      },
-                      height: 50,
-                      width: 150),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Center(
+                        child: buildDefaultButton(
+                          color: primaryColor,
+                          text: "Play Trailer",
+                          onPressed: () {
+                            _showTrailer();
+                          },
+                          height: 50,
+                          width: 150,
+                        ),
+                      ),
+                    ),
+
+                    // Extract movie IDs from watchlistDetails
+                    if (!cinemaxCubit
+                        .get(context)
+                        .watchlistDetails
+                        .map((movie) => movie.id)
+                        .contains(widget.id))
+                      Spacer(),
+
+                    if (!cinemaxCubit
+                        .get(context)
+                        .watchlistDetails
+                        .map((movie) => movie.id)
+                        .contains(widget.id))
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Center(
+                          child: buildDefaultButton(
+                            color: Colors.orange[800],
+                            text: "Add to Watchlist",
+                            onPressed: () {
+                              cinemaxCubit
+                                  .get(context)
+                                  .addToWatchlist(id: widget.id);
+                              cinemaxCubit
+                                  .get(context)
+                                  .watchlistDetails
+                                  .clear();
+                              cinemaxCubit.get(context).getWatchlistDetails();
+                              setState(() {});
+                            },
+                            height: 50,
+                            width: 150,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
+
               if (isTrailerVisible)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Positioned.fill(
                     child: Container(
+                      // ignore: deprecated_member_use
                       color: Colors.black.withOpacity(0.9), // Dark overlay
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

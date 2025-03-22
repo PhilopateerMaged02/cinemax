@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
@@ -7,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MostPopularScreen extends StatelessWidget {
+  const MostPopularScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<cinemaxCubit, cinemaxStates>(

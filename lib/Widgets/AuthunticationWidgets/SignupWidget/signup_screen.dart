@@ -7,11 +7,14 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class SignupScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passController = TextEditingController();
   var fullNameController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
+  SignupScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -75,6 +78,7 @@ class SignupScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return 'Name must not be empty';
                               }
+                              return null;
                             },
                             text: "Full Name",
                             prefix: Icons.person,
@@ -88,6 +92,7 @@ class SignupScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return 'Email must not be empty';
                               }
+                              return null;
                             },
                             text: "Email Address",
                             prefix: Icons.email,
@@ -101,6 +106,7 @@ class SignupScreen extends StatelessWidget {
                                 if (value!.isEmpty) {
                                   return 'Password must not be empty';
                                 }
+                                return null;
                               },
                               text: "Password",
                               prefix: Icons.password,
@@ -156,6 +162,7 @@ class SignupScreen extends StatelessWidget {
                           condition: state is! cinemaxRegisterLoadingState,
                           builder: (BuildContext context) {
                             return buildDefaultButton(
+                                color: primaryColor,
                                 text: "Sign Up",
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {

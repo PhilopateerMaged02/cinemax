@@ -1,6 +1,5 @@
 import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
-import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/cubit/cubit.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/cubit/states.dart';
 import 'package:cinemax/Widgets/Layout/cinemaxLayout.dart';
@@ -8,11 +7,14 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passController = TextEditingController();
   //var fullNameController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
+  LoginScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -47,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          "Hi, ${fullName}",
+                          "Hi, $fullName",
                           style: TextStyle(
                               fontSize: 28, fontWeight: FontWeight.w600),
                         ),
@@ -74,6 +76,7 @@ class LoginScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return 'Email must not be empty';
                               }
+                              return null;
                             },
                             text: "Email Address",
                             prefix: Icons.email,
@@ -87,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                                 if (value!.isEmpty) {
                                   return 'Password must not be empty';
                                 }
+                                return null;
                               },
                               text: "Password",
                               prefix: Icons.password,
@@ -118,6 +122,7 @@ class LoginScreen extends StatelessWidget {
                           condition: state is! cinemaxLoginLoadingState,
                           builder: (BuildContext context) {
                             return buildDefaultButton(
+                                color: primaryColor,
                                 text: "Login",
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {

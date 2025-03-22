@@ -89,8 +89,13 @@ class MoviesModel {
       id: json['id'],
       title: json['title'] ?? "No Title",
       overview: json['overview'] ?? "No Overview",
-      posterPath: json['poster_path'] ?? "",
-      backdropPath: json['backdrop_path'] ?? "",
+      posterPath: json['poster_path'] != null && json['poster_path'].isNotEmpty
+          ? "https://image.tmdb.org/t/p/w500${json['poster_path']}"
+          : "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
+      backdropPath: json['backdrop_path'] != null &&
+              json['backdrop_path'].isNotEmpty
+          ? "https://image.tmdb.org/t/p/w500${json['backdrop_path']}"
+          : "https://www.juliedray.com/wp-content/uploads/2022/01/sans-affiche.png",
       releaseDate: json['release_date'] ?? "Unknown",
       voteAverage: (json['vote_average'] ?? 0).toDouble(),
       voteCount: json['vote_count'] ?? 0,
