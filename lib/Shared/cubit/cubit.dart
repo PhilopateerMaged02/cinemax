@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, deprecated_member_use
 
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Models/UserModel/user_model.dart';
@@ -268,6 +268,44 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
       navigateToandKill(context, LoginSignup());
     } catch (error) {
       print('Error signing out: $error');
+    }
+  }
+
+  void updateUserName(String name) async {
+    try {
+      emit(cinemaxUpdateUserDataLoadingState());
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updateDisplayName(name);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uId)
+            .update({"name": name});
+      }
+      await user?.reload();
+      print("User info updated successfully.");
+      emit(cinemaxUpdateUserDataSucessState());
+    } catch (error) {
+      emit(cinemaxUpdateUserDataErrorState());
+    }
+  }
+
+  void updateUserEmail(String email) async {
+    try {
+      emit(cinemaxUpdateUserDataLoadingState());
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updateEmail(email);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uId)
+            .update({"email": email});
+      }
+      await user?.reload();
+      print("User info updated successfully.");
+      emit(cinemaxUpdateUserDataSucessState());
+    } catch (error) {
+      emit(cinemaxUpdateUserDataErrorState());
     }
   }
 }

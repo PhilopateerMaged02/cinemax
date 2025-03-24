@@ -2,6 +2,7 @@ import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Myaccount/EditProfile/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,7 +63,9 @@ class MyaccountScreen extends StatelessWidget {
                           ),
                           Spacer(),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateTo(context, EditProfileScreen());
+                              },
                               icon: Icon(
                                 size: 40,
                                 Icons.edit_note,
@@ -92,27 +95,84 @@ class MyaccountScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 8, bottom: 20, right: 16),
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey[900],
+                                    child: Icon(
+                                      Icons.lock,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Change Password",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: primaryColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[800]!),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
+                            child: Text(
+                              "General",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w800, fontSize: 19),
+                            ),
+                          ),
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 5),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[900],
-                                  child: Icon(
-                                    Icons.person,
-                                    color: primaryColor,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey[900],
+                                    child: Icon(
+                                      Icons.pie_chart_outline_outlined,
+                                      color: primaryColor,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("PERSONAL DATA"),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: primaryColor,
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Language"),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: primaryColor,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -131,25 +191,111 @@ class MyaccountScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 16, top: 8, bottom: 20, right: 16),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[900],
-                                  child: Icon(
-                                    Icons.lock,
-                                    color: Colors.grey,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey[900],
+                                    child: Icon(
+                                      Icons.shield,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "Change Password",
-                                  style: TextStyle(fontWeight: FontWeight.w800),
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: primaryColor,
-                                )
-                              ],
+                                  Text(
+                                    "Legal and Policies",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: primaryColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Container(
+                              width: 200,
+                              height: 1,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 8, bottom: 20, right: 16),
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey[900],
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Clear Cache",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: primaryColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Container(
+                              width: 200,
+                              height: 1,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 8, bottom: 20, right: 16),
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey[900],
+                                    child: Icon(
+                                      Icons.info,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "About Us",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w800),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: primaryColor,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -162,11 +308,73 @@ class MyaccountScreen extends StatelessWidget {
                   buildDefaultButton(
                       text: "Sign out",
                       onPressed: () {
-                        cinemaxCubit.get(context).signOut(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Are you sure?",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Center(
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 40),
+                                            child: buildDefaultButton(
+                                                text: "Sure",
+                                                onPressed: () {
+                                                  cinemaxCubit
+                                                      .get(context)
+                                                      .signOut(context);
+                                                },
+                                                height: 50,
+                                                width: 100,
+                                                color: primaryColor),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 40),
+                                            child: buildDefaultButton(
+                                                text: "Cancel",
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                height: 50,
+                                                width: 100,
+                                                color: Colors.black12),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
                       height: 50,
                       width: double.infinity,
-                      color: primaryColor)
+                      color: Colors.black12)
                 ],
               ),
             ),

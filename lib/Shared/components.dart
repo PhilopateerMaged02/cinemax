@@ -89,8 +89,10 @@ Widget buildDefaultButton(
   return Container(
     height: height,
     width: width,
-    decoration:
-        BoxDecoration(color: color, borderRadius: BorderRadius.circular(25)),
+    decoration: BoxDecoration(
+        border: Border.all(color: primaryColor),
+        color: color,
+        borderRadius: BorderRadius.circular(25)),
     child: TextButton(
       onPressed: onPressed,
       child: Text(

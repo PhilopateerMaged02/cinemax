@@ -96,3 +96,12 @@ class cinemaxRemoveFromWatchlistSucessState extends cinemaxStates {}
 
 // ignore: camel_case_types
 class cinemaxRemoveFromWatchlistErrorState extends cinemaxStates {}
+
+// ignore: camel_case_types
+class cinemaxUpdateUserDataLoadingState extends cinemaxStates {}
+
+// ignore: camel_case_types
+class cinemaxUpdateUserDataSucessState extends cinemaxStates {}
+
+// ignore: camel_case_types
+class cinemaxUpdateUserDataErrorState extends cinemaxStates {}
