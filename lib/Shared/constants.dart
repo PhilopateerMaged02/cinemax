@@ -70,3 +70,25 @@ String formatReleaseDate(String releaseDate) {
     return "Release Date Unavailable";
   }
 }
+
+List<String> allowedDomains = [
+  "gmail.com",
+  "outlook.com",
+  "hotmail.com",
+  "yahoo.com",
+  "icloud.com",
+  "aol.com",
+  "live.com",
+  "protonmail.com",
+  "zoho.com",
+  "yandex.com",
+  "qq.com",
+  "163.com",
+  "126.com",
+  "gmx.de",
+  "web.de",
+  "orange.fr",
+  "laposte.net",
+  "mail.ru",
+  "yandex.ru"
+];

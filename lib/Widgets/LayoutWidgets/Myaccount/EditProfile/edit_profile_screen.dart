@@ -2,15 +2,23 @@ import 'package:cinemax/Shared/components.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
+
   final nameController = TextEditingController();
+
   final emailController = TextEditingController();
+
   final phoneController = TextEditingController();
+
+  final passController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +113,22 @@ class EditProfileScreen extends StatelessWidget {
                       height: 20,
                     ),
                     defaultFormField(
+                        controller: passController,
+                        input: TextInputType.text,
+                        text: "current password",
+                        onValidator: (value) {
+                          if (value!.isEmpty) {
+                            return "Password must not be empty";
+                          }
+                          return null;
+                        },
+                        isObscure: true,
+                        suffix: Icons.remove_red_eye,
+                        prefix: Icons.password),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    defaultFormField(
                         controller: phoneController,
                         input: TextInputType.number,
                         text: cinemaxCubit.get(context).userModel!.phone,
@@ -118,39 +142,38 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    buildDefaultButton(
-                        text: "Save Changes",
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            if (nameController.text.isNotEmpty) {
-                              cinemaxCubit
-                                  .get(context)
-                                  .updateUserName(nameController.text);
-                            } else {
-                              nameController.text =
-                                  cinemaxCubit.get(context).userModel!.name;
-                            }
-                            if (emailController.text.isNotEmpty) {
-                              cinemaxCubit
-                                  .get(context)
-                                  .updateUserEmail(emailController.text);
-                            } else {
-                              emailController.text =
-                                  cinemaxCubit.get(context).userModel!.email;
-                            }
-                            if (phoneController.text.isNotEmpty) {
-                              // cinemaxCubit
-                              //     .get(context)
-                              //     .updateUserName(nameController.text);
-                            } else {
-                              phoneController.text =
-                                  cinemaxCubit.get(context).userModel!.phone;
-                            }
-                          }
-                        },
-                        height: 50,
-                        width: double.infinity,
-                        color: primaryColor),
+                    BlocConsumer<cinemaxCubit, cinemaxStates>(
+                      listener: (context, state) {
+                        if (state is cinemaxUpdateUserDataSucessState) {
+                          cinemaxCubit.get(context).getUserData();
+                        }
+                      },
+                      builder: (context, state) {
+                        return ConditionalBuilder(
+                          condition:
+                              state is! cinemaxUpdateUserDataLoadingState,
+                          builder: (BuildContext context) {
+                            return buildDefaultButton(
+                              text: "Save Changes",
+                              onPressed: () {
+                                cinemaxCubit.get(context).updateUserData(
+                                    email: emailController.text,
+                                    name: nameController.text,
+                                    phone: phoneController.text,
+                                    currentPass: passController.text);
+                              },
+                              height: 50,
+                              width: double.infinity,
+                              color: primaryColor,
+                            );
+                          },
+                          fallback: (BuildContext context) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

@@ -271,40 +271,95 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
     }
   }
 
-  void updateUserName(String name) async {
+  void updateUserData(
+      {String? name, String? email, String? phone, String? currentPass}) async {
     try {
       emit(cinemaxUpdateUserDataLoadingState());
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await user.updateDisplayName(name);
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uId)
-            .update({"name": name});
-      }
-      await user?.reload();
-      print("User info updated successfully.");
-      emit(cinemaxUpdateUserDataSucessState());
-    } catch (error) {
-      emit(cinemaxUpdateUserDataErrorState());
-    }
-  }
+      String storedUId = uId!;
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
 
-  void updateUserEmail(String email) async {
-    try {
-      emit(cinemaxUpdateUserDataLoadingState());
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await user.updateEmail(email);
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uId)
-            .update({"email": email});
+      var querySnapshot = await users.where('uId', isEqualTo: storedUId).get();
+      if (querySnapshot.docs.isEmpty) {
+        showToust(message: "User not found!", state: ToastStates.ERROR);
+        emit(cinemaxUpdateUserDataErrorState());
+        return;
       }
-      await user?.reload();
-      print("User info updated successfully.");
-      emit(cinemaxUpdateUserDataSucessState());
+
+      String docId = querySnapshot.docs.first.id;
+      Map<String, dynamic> updateData = {};
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // ✅ Update Name
+      if (name != null && name.isNotEmpty) {
+        updateData["name"] = name;
+      }
+
+      // ✅ Update Email with Verification
+      if (email != null && email.isNotEmpty) {
+        if (!email.contains('@') || email.split('@')[0].isEmpty) {
+          showToust(message: "Invalid email format", state: ToastStates.ERROR);
+          emit(cinemaxUpdateUserDataErrorState());
+          return;
+        }
+
+        String domain = email.split('@').last;
+        if (!allowedDomains.contains(domain)) {
+          showToust(message: "Invalid email domain", state: ToastStates.ERROR);
+          emit(cinemaxUpdateUserDataErrorState());
+          return;
+        }
+
+        var emailQuery = await users.where('email', isEqualTo: email).get();
+        if (emailQuery.docs.isNotEmpty) {
+          showToust(message: "Email already in use", state: ToastStates.ERROR);
+          emit(cinemaxUpdateUserDataErrorState());
+          return;
+        }
+
+        // ✅ Reauthenticate user
+        try {
+          AuthCredential credential = EmailAuthProvider.credential(
+              email: user!.email!, password: currentPass!);
+          await user.reauthenticateWithCredential(credential);
+
+          // ✅ Send email verification before updating
+          await user.verifyBeforeUpdateEmail(email);
+          showToust(
+              message: "Verification email sent! Confirm before updating.",
+              state: ToastStates.WARNING);
+          emit(cinemaxUpdateUserDataSucessState());
+          return; // Stop function here until user verifies the new email.
+        } catch (authError) {
+          showToust(
+              message: "Reauthentication failed. Please try again.",
+              state: ToastStates.ERROR);
+          emit(cinemaxUpdateUserDataErrorState());
+          return;
+        }
+      }
+
+      // ✅ Update Phone
+      if (phone != null && phone.isNotEmpty) {
+        updateData["phone"] = phone;
+      }
+
+      // ✅ Perform Firestore Update
+      if (updateData.isNotEmpty) {
+        await users.doc(docId).update(updateData);
+        showToust(
+            message: "Profile Updated Successfully",
+            state: ToastStates.SUCCESS);
+        emit(cinemaxUpdateUserDataSucessState());
+      } else {
+        showToust(
+            message: "No valid data provided for update",
+            state: ToastStates.ERROR);
+        emit(cinemaxUpdateUserDataErrorState());
+      }
     } catch (error) {
+      showToust(
+          message: "Error in Updating User Data", state: ToastStates.ERROR);
       emit(cinemaxUpdateUserDataErrorState());
     }
   }

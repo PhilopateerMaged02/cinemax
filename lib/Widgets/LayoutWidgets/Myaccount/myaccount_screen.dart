@@ -46,13 +46,33 @@ class MyaccountScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  cinemaxCubit.get(context).userModel!.name,
+                                  cinemaxCubit
+                                              .get(context)
+                                              .userModel!
+                                              .name
+                                              .length >
+                                          20
+                                      ? "${cinemaxCubit.get(context).userModel!.name.substring(0, 15)}..."
+                                      : cinemaxCubit
+                                          .get(context)
+                                          .userModel!
+                                          .name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 19),
                                 ),
                                 Text(
-                                  cinemaxCubit.get(context).userModel!.email,
+                                  cinemaxCubit
+                                              .get(context)
+                                              .userModel!
+                                              .email
+                                              .length >
+                                          20
+                                      ? "${cinemaxCubit.get(context).userModel!.email.substring(0, 15)}..."
+                                      : cinemaxCubit
+                                          .get(context)
+                                          .userModel!
+                                          .email,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 14,

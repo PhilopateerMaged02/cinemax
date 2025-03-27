@@ -788,3 +788,35 @@ Widget genreItem(
     ),
   );
 }
+
+void showEditDialog({
+  required BuildContext context,
+  required String title,
+  required String hintText,
+  required VoidCallback onPressedUpdate,
+}) {
+  TextEditingController textController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context), // Close the dialog
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+          ),
+        ),
+        TextButton(
+          onPressed: onPressedUpdate,
+          child: Text(
+            "Update",
+            style: TextStyle(color: primaryColor, fontWeight: FontWeight.w800),
+          ),
+        ),
+      ],
+    ),
+  );
+}
