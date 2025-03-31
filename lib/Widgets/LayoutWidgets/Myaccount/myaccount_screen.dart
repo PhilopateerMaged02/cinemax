@@ -3,6 +3,8 @@ import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Myaccount/EditProfile/edit_profile_screen.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Myaccount/Language/language_screen.dart';
+import 'package:cinemax/Widgets/LayoutWidgets/Myaccount/chnagePassword/change_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -118,7 +120,10 @@ class MyaccountScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: 16, top: 8, bottom: 20, right: 16),
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () 
+                              {
+                                navigateTo(context,ChangePasswordScreen());
+                              },
                               child: Row(
                                 children: [
                                   CircleAvatar(
@@ -172,7 +177,10 @@ class MyaccountScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 5),
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () 
+                              {
+                                navigateTo(context, TestLocalizationScreen());
+                              },
                               child: Row(
                                 children: [
                                   CircleAvatar(

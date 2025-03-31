@@ -105,3 +105,11 @@ class cinemaxUpdateUserDataSucessState extends cinemaxStates {}
 
 // ignore: camel_case_types
 class cinemaxUpdateUserDataErrorState extends cinemaxStates {}
+// ignore: camel_case_types
+class cinemaxUpdateUserPasswordLoadingState extends cinemaxStates {}
+
+// ignore: camel_case_types
+class cinemaxUpdateUserPasswordSucessState extends cinemaxStates {}
+
+// ignore: camel_case_types
+class cinemaxUpdateUserPasswordErrorState extends cinemaxStates {}
