@@ -1,6 +1,8 @@
 {
-  "appTitle": "سينماكس",
-  "welcomeMessage": "مرحبًا بك في سينماكس!",
-  "changeLanguage": "تغيير اللغة",
-  "@changeLanguage": {}
+    "@@locale": "ar",
+    "home": "الرئيسية",
+    "search": "بحث",
+    "profile": "الملف الشخصي",
+    "watchlist": "قائمة المشاهدة",
+    "myaccount": "حسابي"
 }

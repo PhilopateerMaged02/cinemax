@@ -1,8 +1,8 @@
 {
-  "appTitle": "Cinemax",
-  "@appTitle": {},
-  "welcomeMessage": "Welcome to Cinemax!",
-  "@welcomeMessage": {},
-  "changeLanguage": "Change Language",
-  "@changeLanguage": {}
+    "@@locale": "en",
+    "title": "Cinemax",
+    "search": "Search",
+    "language": "English",
+    "watchlist": "Watchlist",
+    "myaccount": "My Account"
 }

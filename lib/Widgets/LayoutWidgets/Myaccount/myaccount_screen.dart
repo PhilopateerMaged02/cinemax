@@ -120,9 +120,8 @@ class MyaccountScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: 16, top: 8, bottom: 20, right: 16),
                             child: GestureDetector(
-                              onTap: () 
-                              {
-                                navigateTo(context,ChangePasswordScreen());
+                              onTap: () {
+                                navigateTo(context, ChangePasswordScreen());
                               },
                               child: Row(
                                 children: [
@@ -177,8 +176,7 @@ class MyaccountScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 5),
                             child: GestureDetector(
-                              onTap: () 
-                              {
+                              onTap: () {
                                 navigateTo(context, TestLocalizationScreen());
                               },
                               child: Row(

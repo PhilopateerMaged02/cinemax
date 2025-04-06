@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 const Color primaryColor = Colors.cyan;
 String fullName = "";
@@ -92,3 +93,6 @@ List<String> allowedDomains = [
   "mail.ru",
   "yandex.ru"
 ];
+bool iaArabic() {
+  return Intl.getCurrentLocale() == 'ar';
+}

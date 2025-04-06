@@ -14,8 +14,6 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-    String get appTitle => 'Cinemax';
-  String get welcomeMessage => 'Welcome to Cinemax!';
   static S? _current;
 
   static S get current {

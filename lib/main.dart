@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +30,13 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   print('🔥 Firebase initialized successfully!');
   print('🔥' "$uId");
-
+  print("Language of App : " + Intl.getCurrentLocale());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((_) {
-    runApp(MainApp(startWidget: startWidget,));
+    runApp(MainApp(
+      startWidget: startWidget,
+    ));
   });
 }
 
@@ -41,25 +44,12 @@ class MainApp extends StatefulWidget {
   final Widget startWidget;
   const MainApp({super.key, required this.startWidget});
 
-  static void setLocale(BuildContext context, Locale newLocale) {
-    _MainAppState? state = context.findAncestorStateOfType<_MainAppState>();
-    state?.setLocale(newLocale);
-  }
-
   @override
   _MainAppState createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
-  Locale _locale = const Locale('en'); 
-
-  void setLocale(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
-  }
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => cinemaxCubit()
@@ -71,11 +61,11 @@ class _MainAppState extends State<MainApp> {
         debugShowCheckedModeBanner: false,
         title: 'Cinemax',
         theme: ThemeData.dark(),
-        locale: _locale,
+        locale: const Locale('en'),
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,
-           GlobalWidgetsLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
