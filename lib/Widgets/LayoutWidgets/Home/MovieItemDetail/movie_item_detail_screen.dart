@@ -1,6 +1,5 @@
 import 'dart:ui';
-
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/default_button.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';

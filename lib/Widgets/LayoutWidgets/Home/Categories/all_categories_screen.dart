@@ -1,4 +1,4 @@
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/genre_item.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';

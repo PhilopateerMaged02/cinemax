@@ -1,4 +1,7 @@
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/default_button.dart';
+import 'package:cinemax/Shared/components/default_text_form_field.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
+import 'package:cinemax/Shared/components/toust.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/cubit/cubit.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/cubit/states.dart';

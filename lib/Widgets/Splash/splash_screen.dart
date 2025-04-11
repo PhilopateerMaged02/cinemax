@@ -1,7 +1,7 @@
+import 'package:cinemax/Shared/components/navigation.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginSignupWidget/login_signup.dart';
 import 'package:cinemax/Widgets/Layout/cinemaxLayout.dart';
-import 'package:cinemax/Shared/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

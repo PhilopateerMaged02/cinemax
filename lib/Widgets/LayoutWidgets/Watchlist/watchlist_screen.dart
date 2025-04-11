@@ -1,5 +1,5 @@
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';

@@ -1,4 +1,5 @@
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/default_button.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginWidget/login_screen.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/SignupWidget/signup_screen.dart';

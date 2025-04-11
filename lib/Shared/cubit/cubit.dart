@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print, deprecated_member_use
-
 import 'package:cinemax/Models/MoviesModel/movies_model.dart';
 import 'package:cinemax/Models/UserModel/user_model.dart';
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
+import 'package:cinemax/Shared/components/toust.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/states.dart';
 import 'package:cinemax/Widgets/AuthunticationWidgets/LoginSignupWidget/login_signup.dart';
@@ -364,46 +364,49 @@ class cinemaxCubit extends Cubit<cinemaxStates> {
     }
   }
 
-Future<void> updatePassword(String currentPassword, String newPassword) async {
-  try {
-    emit(cinemaxUpdateUserPasswordLoadingState());
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null || user.email == null) {
-      emit(cinemaxUpdateUserPasswordErrorState());
-      print("No user is signed in.");
-      return;
-    }
-    AuthCredential credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: currentPassword,
-    );
+  Future<void> updatePassword(
+      String currentPassword, String newPassword) async {
+    try {
+      emit(cinemaxUpdateUserPasswordLoadingState());
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null || user.email == null) {
+        emit(cinemaxUpdateUserPasswordErrorState());
+        print("No user is signed in.");
+        return;
+      }
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
 
-    await user.reauthenticateWithCredential(credential);
-    print("User reauthenticated successfully.");
+      await user.reauthenticateWithCredential(credential);
+      print("User reauthenticated successfully.");
 
-    await user.updatePassword(newPassword);
-    emit(cinemaxUpdateUserPasswordSucessState());
-    showToust(message: "Password Updated Successfully", state: ToastStates.SUCCESS);
-    print("Password updated successfully.");
-  }on FirebaseAuthException catch (e) {
-   if (e.code == 'invalid-credential') {
-  emit(cinemaxUpdateUserPasswordErrorState());
-  showToust(message: "Current Password incorrect", state: ToastStates.ERROR);
-}
-else if (e.code == 'weak-password') {
+      await user.updatePassword(newPassword);
+      emit(cinemaxUpdateUserPasswordSucessState());
+      showToust(
+          message: "Password Updated Successfully", state: ToastStates.SUCCESS);
+      print("Password updated successfully.");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-credential') {
+        emit(cinemaxUpdateUserPasswordErrorState());
+        showToust(
+            message: "Current Password incorrect", state: ToastStates.ERROR);
+      } else if (e.code == 'weak-password') {
+        emit(cinemaxUpdateUserPasswordErrorState());
+        showToust(message: "New Password is weak", state: ToastStates.ERROR);
+      } else {
+        emit(cinemaxUpdateUserPasswordErrorState());
+        print("Error: $e");
+      }
+    } catch (e) {
       emit(cinemaxUpdateUserPasswordErrorState());
-       showToust(message: "New Password is weak", state: ToastStates.ERROR);
-    } else {
-      emit(cinemaxUpdateUserPasswordErrorState());
+      showToust(
+          message: "Error in Updating Password", state: ToastStates.ERROR);
       print("Error: $e");
     }
   }
-   catch (e) {
-    emit(cinemaxUpdateUserPasswordErrorState());
-    showToust(message: "Error in Updating Password", state: ToastStates.ERROR);
-    print("Error: $e");
-  }
-}
+
   void changeLocale(String languageCode) {
     emit(Locale(languageCode) as cinemaxStates);
   }

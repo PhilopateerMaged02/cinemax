@@ -1,5 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/carousel_item.dart';
+import 'package:cinemax/Shared/components/category_item.dart';
+import 'package:cinemax/Shared/components/movie_item.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
+import 'package:cinemax/Shared/components/slider.dart';
 import 'package:cinemax/Shared/constants.dart';
 import 'package:cinemax/Shared/cubit/cubit.dart';
 import 'package:cinemax/Shared/cubit/states.dart';

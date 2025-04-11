@@ -1,5 +1,6 @@
 import 'package:cinemax/Shared/Service/Dio/dio_helper.dart';
-import 'package:cinemax/Shared/components.dart';
+import 'package:cinemax/Shared/components/default_text_form_field.dart';
+import 'package:cinemax/Shared/components/navigation.dart';
 import 'package:cinemax/Widgets/LayoutWidgets/Home/MovieItemDetail/movie_item_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
